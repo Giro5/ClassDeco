@@ -1,13 +1,24 @@
-def another_functin(func):
-    def other_function():
-        val = "Result from %s equal %s" %(func(), eval(func()))
-        return val
-    return other_function
+from random import *
 
-@another_functin
-def a_function():
-    return "1+1"
+class Car:
+    def __init__(self, **args):
+        self.weight = str(args["wei"])
+        self.color = args["col"]
+        self.model = args["mod"]
+        self.price = str(args["pri"]) + " т.р."
+    def Params(self):
+        return "Color: " + self.color + "\nWeight: " + self.weight + "\nModel: " + self.model + "\nQuantity wheels: " + self.price
 
-if __name__ == "__main__":
-    value = a_function()
-    print(value)
+def decor(func):
+    def picking(**args):
+        return Car(**func(**args)).Params()
+    return picking
+
+@decor
+def DefCar(**args):
+    return args
+
+models = ["volvo", "renault", "toyota", "audi", "bmw", "ford", "kia", "lexus", "mazda", "opel"]
+for i in range(int(input("Укажите нужное кол-во машин: "))):
+    value = DefCar(wei=randint(500, 2000), col="blue" if (i+1)%2==0 else "red", mod=choice(models), pri=randrange(500, 5000, 5))
+    print(str(i+1)+"-я машина такова:\n" + value, "\n")
